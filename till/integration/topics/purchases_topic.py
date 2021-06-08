@@ -2,6 +2,7 @@ from __future__ import print_function
 
 import sys
 import os
+import json
 from dataclasses import dataclass
 from dataclasses import asdict
 
@@ -25,12 +26,12 @@ class PurchaseEvent:
 
 
 class PurchaseEventHandler(MessagingHandler):
-    def __init__(self, message_body):
+    def __init__(self, event: PurchaseEvent):
         super(PurchaseEventHandler, self).__init__()
 
         self.conn_url = os.getenv('HOST')
         self.address = os.getenv('ADDRESS')
-        self.message_body = message_body
+        self.message_body = json.dumps(asdict(event))
 
     def on_start(self, event):
         conn = event.container.connect(self.conn_url)
@@ -54,4 +55,4 @@ class PurchasesTopic(PurchasesTopicInterface):
 
     def emit_purchase(self, purchase: Purchase):
         purchase_event = PurchaseEvent.from_purchase(purchase)
-        Container(PurchaseEventHandler(asdict(purchase_event))).run()
+        Container(PurchaseEventHandler(purchase_event)).run()
