@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "till"
+version = "0.1.0"
+description = ""
+authors = ["Max Kossatz <mkossatz@redhat.com>"]
+license = "Apache License 2.0"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+python-qpid-proton = "^0.34.0"
+Flask = "^2.0.1"
+
+[tool.poetry.dev-dependencies]
+autopep8 = "^1.5.7"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
