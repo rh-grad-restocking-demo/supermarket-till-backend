@@ -7,12 +7,12 @@ from till.core.purchase import Purchase
 @dataclass(frozen=True)
 class PurchaseEvent:
     sku: str
-    unit: str
-    count: int
+    price: int
+    amount: int
 
     @classmethod
     def from_purchase(Cls, purchase: Purchase):
-        return Cls(purchase.sku, purchase.unit, purchase.count)
+        return Cls(purchase.sku, purchase.price, purchase.amount)
 
 
 class PurchasesTopic(PurchasesTopicInterface):

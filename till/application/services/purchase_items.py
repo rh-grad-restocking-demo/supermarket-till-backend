@@ -12,6 +12,6 @@ class PurchaseItems:
         for item in dto.items_purchased:
             purchase = Purchase(
                 sku=item.sku,
-                unit=item.unit,
-                count=item.count)
+                price=item.price,
+                amount=item.amount)
             self._purchases_topic.emit_purchase(purchase)
