@@ -7,15 +7,15 @@ from till.application.services.purchase_items import PurchaseItems
 # from till.integration.topics.purchases_topic import PurchasesTopic
 from till.integration.topics.purchases_topic_static import PurchasesTopic
 
-wsgi = Flask(__name__)
+application = Flask(__name__)
 
 
-@wsgi.route("/", methods=['GET'])
+@application.route("/", methods=['GET'])
 def get_home():
     return "This is working."
 
 
-@wsgi.route("/items_purchase", methods=['POST'])
+@application.route("/items_purchase", methods=['POST'])
 def post_items_purchase():
     data = request.get_json()
     item_dtos = []
@@ -32,4 +32,4 @@ def post_items_purchase():
 
 
 if __name__ == "__main__":
-    wsgi.run(port=5000)
+    application.run()
