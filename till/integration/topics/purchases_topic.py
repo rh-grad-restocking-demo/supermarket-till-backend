@@ -17,20 +17,19 @@ from till.core.purchase import Purchase
 @dataclass(frozen=True)
 class PurchaseEvent:
     sku: str
-    price: int
     amount: int
 
     @classmethod
     def from_purchase(Cls, purchase: Purchase):
-        return Cls(purchase.sku, purchase.price, purchase.amount)
+        return Cls(purchase.sku, purchase.amount)
 
 
 class PurchaseEventHandler(MessagingHandler):
-    def __init__(self, event: PurchaseEvent):
+    def __init__(self, host: str, event: PurchaseEvent):
         super(PurchaseEventHandler, self).__init__()
 
-        self.conn_url = os.getenv('HOST')
-        self.address = os.getenv('ADDRESS')
+        self.conn_url = host
+        self.address = "itemsPurchasedAddress"
         self.message_body = json.dumps(asdict(event))
 
     def on_start(self, event):
@@ -53,6 +52,9 @@ class PurchaseEventHandler(MessagingHandler):
 
 class PurchasesTopic(PurchasesTopicInterface):
 
+    def __init__(self, host: str):
+        self._host = host
+
     def emit_purchase(self, purchase: Purchase):
         purchase_event = PurchaseEvent.from_purchase(purchase)
-        Container(PurchaseEventHandler(purchase_event)).run()
+        Container(PurchaseEventHandler(self._host, purchase_event)).run()
