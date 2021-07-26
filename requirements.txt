@@ -1,4 +1,0 @@
-gunicorn
-click
-flask
-python-qpid-proton
